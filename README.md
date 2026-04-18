@@ -1,61 +1,52 @@
-# Selenium POM Framework (Java + TestNG + Allure)
+# Selenium Java TestNG POM Framework
 
-A scalable, maintainable Selenium framework using a modern Page Object Model architecture.
+Production-ready UI test automation framework built with Selenium, TestNG, and Allure using a clean Page Object Model architecture.
 
-## Framework layers
+## Package Structure
 
-- **Base layer**: `BasePage`, `BaseTest`
-- **Config layer**: `ConfigManager` + `config.properties`
-- **Driver layer**: thread-safe `DriverManager`
-- **Utility layer**: waits, common actions, screenshots
-- **Page layer**: page objects under `pages`
-- **Test layer**: tests under `tests`
-- **Reporting layer**: Allure attachments/listeners
-- **Analyzer layer**: Retry analyzer for flaky failures
+```text
+src/test/java/com/framework
+├── base
+│   ├── BasePage.java
+│   └── BaseTest.java
+├── driver
+│   └── DriverFactory.java
+├── listeners
+│   └── TestListener.java
+├── pages
+│   └── LoginPage.java
+├── tests
+│   └── LoginTest.java
+└── utils
+    ├── ActionUtil.java
+    ├── AllureUtil.java
+    ├── ConfigReader.java
+    ├── ScreenshotUtil.java
+    └── WaitUtil.java
 
-## Run locally
+src/test/resources
+└── config.properties
+```
 
-### Prerequisites
-- Java 17+
-- Maven 3.9+
-- Chrome/Firefox/Edge installed (choose via config)
+## Key Capabilities
 
-### Commands
+- Thread-safe `ThreadLocal<WebDriver>` driver management for parallel runs.
+- Browser selection via `config.properties` (`chrome`/`firefox`).
+- Configurable timeout and base URL.
+- Reusable base page actions (`click`, `type`, `getText`, `waitForElement`) plus advanced interactions (`hover`, `doubleClick`, `rightClick`, `dragAndDrop`, dropdown selects, frame/window switching).
+- Step-level Allure logging with screenshot attachment on **every** UI action.
+- Automatic screenshot capture on test failures using TestNG listener.
+- Explicit waits only (no hardcoded sleeps).
 
-Run tests:
+## How to Run
 
 ```bash
 mvn clean test
 ```
 
-Run in headless mode:
-
-```bash
-mvn clean test -Dheadless=true
-```
-
-Run on Firefox:
-
-```bash
-mvn clean test -Dbrowser=firefox
-```
-
-Generate and open Allure report:
+## Allure Report
 
 ```bash
 mvn allure:report
 mvn allure:serve
 ```
-
-## Built-in defaults
-
-- Explicit wait: 15 seconds
-- Implicit wait: 2 seconds
-- Page load timeout: 30 seconds
-
-## Test added
-
-- Login validation for:
-  - URL: `https://rahulshettyacademy.com/client/#/auth/login`
-  - Username: `anshika@gmail.com`
-  - Password: `Iamking@000`

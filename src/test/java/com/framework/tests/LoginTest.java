@@ -1,19 +1,23 @@
 package com.framework.tests;
 
-import com.framework.analyzers.RetryAnalyzer;
 import com.framework.base.BaseTest;
 import com.framework.pages.LoginPage;
-import org.testng.Assert;
+import com.framework.utils.LoginHelper;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
 
-    @Test(description = "Verify user can login with valid credentials", retryAnalyzer = RetryAnalyzer.class)
-    public void shouldLoginSuccessfully() {
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.load();
-        loginPage.login("anshika@gmail.com", "Iamking@000");
+    @Test(description = "Verify validation on login page for invalid credentials", groups = {"P2", "AUTH"})
+    public void verifyValidationOnLoginPageForInvalidCredentials() {
+        LoginHelper loginHelper = new LoginHelper(getDriver());
+        String invalidEmail = loginHelper.generateInvalidEmail("qa-user");
 
-        Assert.assertTrue(loginPage.isLoginSuccessful(), "Expected user to reach dashboard after login.");
+        loginHelper.openLoginPage();
+
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage
+            .isLoaded()
+            .login(invalidEmail, loginHelper.invalidPassword())
+            .verifyErrorMessageDisplayed("Incorrect email or password");
     }
 }

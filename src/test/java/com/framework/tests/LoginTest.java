@@ -7,17 +7,18 @@ import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
 
-    @Test(description = "Verify user gets error for invalid login credentials")
-    public void shouldShowErrorForInvalidCredentials() {
+    @Test(description = "Verify validation for invalid login credentials", groups = {"P2", "LOGIN"})
+    public void verifyValidationForInvalidLoginCredentials() {
         LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.load();
 
-        String errorMessage = loginPage
-            .login("invalid.user@example.com", "invalidPassword")
-            .getLoginErrorMessage();
+        loginPage.enterEmail("invalid.user@example.com");
+        loginPage.enterPassword("invalidPassword");
+        loginPage.clickLoginButton();
 
         Assert.assertTrue(
-            errorMessage.toLowerCase().contains("incorrect"),
-            "Expected login error to contain 'incorrect' but was: " + errorMessage
+            loginPage.isLoginErrorMessageContaining("incorrect"),
+            "Expected login error to contain 'incorrect' but was: " + loginPage.getLoginErrorMessage()
         );
     }
 }

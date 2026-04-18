@@ -1,23 +1,24 @@
 package com.framework.base;
 
-import com.framework.driver.DriverManager;
+import com.framework.driver.DriverFactory;
+import com.framework.utils.ConfigReader;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public abstract class BaseTest {
-
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        DriverManager.initDriver();
+        DriverFactory.initDriver();
+        getDriver().get(ConfigReader.getBaseUrl());
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        DriverManager.quitDriver();
+        DriverFactory.quitDriver();
     }
 
     protected WebDriver getDriver() {
-        return DriverManager.getDriver();
+        return DriverFactory.getDriver();
     }
 }

@@ -33,6 +33,10 @@ public class ActionUtil {
         return element.getText().trim();
     }
 
+    public String safeGetCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+
     public String safeGetAttribute(By locator, String attributeName) {
         WebElement element = waitUtil.waitForVisibility(locator);
         return element.getAttribute(attributeName);

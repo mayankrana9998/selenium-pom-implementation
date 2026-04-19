@@ -43,6 +43,14 @@ public class LoginPage extends BasePage {
         return getText(errorMessage, "Read login error message on " + PAGE_NAME);
     }
 
+    public String getCurrentUrl() {
+        return getCurrentUrl("Read current URL on " + PAGE_NAME);
+    }
+
+    public String getText() {
+        return getLoginErrorMessage();
+    }
+
     public boolean isLoginErrorMessageContaining(String expectedText) {
         return getLoginErrorMessage().toLowerCase().contains(expectedText.toLowerCase());
     }

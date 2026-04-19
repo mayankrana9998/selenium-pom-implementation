@@ -29,6 +29,12 @@ public abstract class BasePage {
         return text[0];
     }
 
+    protected String getCurrentUrl(String stepName) {
+        final String[] currentUrl = new String[1];
+        AllureUtil.logStepWithScreenshot(driver, stepName, () -> currentUrl[0] = actionUtil.safeGetCurrentUrl());
+        return currentUrl[0];
+    }
+
     protected String getAttribute(By locator, String attributeName, String stepName) {
         final String[] attributeValue = new String[1];
         AllureUtil.logStepWithScreenshot(driver, stepName, () -> attributeValue[0] = actionUtil.safeGetAttribute(locator, attributeName));
